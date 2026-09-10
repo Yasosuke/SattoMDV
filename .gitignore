@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+dist/
+.test-data/
+
+PERFORMANCE.md
+.vs/
+.vscode/
+*.user
+*.suo
+
