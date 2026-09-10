@@ -1,0 +1,5 @@
+/* Obsidian-compatible example theme. Select this file in SattoMDV settings. */
+.theme-light { --background-primary: #f5f0e5; --background-secondary: #ebe3d1; --text-normal: #3b3428; --text-muted: #8b806d; --text-accent: #99623e; --h1-color: #805234; --font-text-theme: "Yu Mincho", serif; }
+.theme-dark { --background-primary: #22262d; --background-secondary: #2c323c; --text-normal: #d7dfeb; --text-muted: #9aa9bd; --text-accent: #a2c4e6; --h1-color: #a2c4e6; --font-text-theme: "Yu Mincho", serif; }
+
+
