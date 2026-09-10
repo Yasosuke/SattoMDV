@@ -1,12 +1,14 @@
 # SattoMDV — さっと表示する Markdown Viewer
 
+[English](README.en.md) | **日本語**
+
 Windows向けの、文章を読むためのMarkdownビューア。C# / .NET 10 / WPF / WebView2 / Markdigで実装しています。
 
 ## ダウンロードと必要環境
 
 Windows 10/11のx64環境向けです。ARM64と32bit Windows向けの配布版はありません。
 
-1. [GitHubのReleases](https://github.com/Yasosuke/SattoMDV/releases/latest)を開き、最新版の **Assets** から `SattoMDV-1.0.0-win-x64.zip` をダウンロードします。`Source code` は開発者向けのソースコードです。
+1. [GitHubのReleases](https://github.com/Yasosuke/SattoMDV/releases/latest)を開き、最新版の **Assets** から `SattoMDV-1.1.0-win-x64.zip` をダウンロードします。`Source code` は開発者向けのソースコードです。
 2. [Microsoft公式の.NET 10ダウンロードページ](https://dotnet.microsoft.com/ja-jp/download/dotnet/10.0)で **.NET Desktop Runtime → Windows → x64** をインストールしてください。実行にはSDKは不要ですが、通常の.NET RuntimeやASP.NET Core Runtimeだけでは不足します。既にDesktop Runtime 10がある場合は再インストール不要です。
 3. [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/ja-jp/microsoft-edge/webview2/)が未導入の場合は、Evergreen Runtimeをインストールしてください。
 4. ZIPを右クリックして「すべて展開」を選び、展開先の `SattoMDV.exe` を起動します。ZIP内から直接起動したり、EXEだけを取り出したりしないでください。
@@ -27,6 +29,12 @@ Windows 10/11のx64環境向けです。ARM64と32bit Windows向けの配布版�
 ```
 
 Windowsの「プログラムから開く」でSattoMDV.exeを選ぶと、Markdownを直接開けます。関連付けの自動変更は行いません。
+
+## 表示言語
+
+右クリック →「テーマ・表示設定」を開き、「読み心地を整える」の下にある **English / 日本語** のラジオボタンで切り替えます。設定画面はその場で切り替わり、「保存して適用」でメニュー・案内文・初期ページにも反映され、次回起動でも維持されます。「キャンセル」では元の言語と設定に戻ります。既定は日本語です。
+
+文書の内容、CSS、ファイルパス、フォント名は変更しません。Windows標準のダイアログやシステム由来のエラーメッセージは、Windowsの表示言語に従う場合があります。
 
 ## テーマと表示設定
 
@@ -91,7 +99,7 @@ Markdown内の生HTMLとスクリプトは無効です。画像は文書と同�
 
 Windows 10/11のx64環境向けです。ARM64と32bit Windows向けの配布版はありません。
 
-1. [GitHubのReleases](https://github.com/Yasosuke/SattoMDV/releases/latest)を開き、最新版の **Assets** から `SattoMDV-1.0.0-win-x64.zip` をダウンロードします。`Source code` は開発者向けのソースコードです。
+1. [GitHubのReleases](https://github.com/Yasosuke/SattoMDV/releases/latest)を開き、最新版の **Assets** から `SattoMDV-1.1.0-win-x64.zip` をダウンロードします。`Source code` は開発者向けのソースコードです。
 2. [Microsoft公式の.NET 10ダウンロードページ](https://dotnet.microsoft.com/ja-jp/download/dotnet/10.0)で **.NET Desktop Runtime → Windows → x64** をインストールしてください。実行にはSDKは不要ですが、通常の.NET RuntimeやASP.NET Core Runtimeだけでは不足します。既にDesktop Runtime 10がある場合は再インストール不要です。
 3. [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/ja-jp/microsoft-edge/webview2/)が未導入の場合は、Evergreen Runtimeをインストールしてください。
 4. ZIPを右クリックして「すべて展開」を選び、展開先の `SattoMDV.exe` を起動します。ZIP内から直接起動したり、EXEだけを取り出したりしないでください。
@@ -109,6 +117,7 @@ Windows 10/11のx64環境向けです。ARM64と32bit Windows向けの配布版�
 ```powershell
 .\build.ps1
 .\test.ps1
+.\test-language.ps1
 ```
 
 .NET 10 SDKが必要です。初回ビルド時はNuGetから依存ライブラリを取得します。テストは実アプリを起動し、標準表示、Obsidian形式のテーマ、文字色・背景・フォント・サイズの優先順位、65,000段落の文書、生HTMLの無効化を検証します。UIテストはブラウザーへの右クリック入力、アウトラインの切替・移動・保存、カラーピッカーとプルダウンの選択・保存、本文への実ファイルドロップ入力と、案内欄・アウトラインからのWPFドロップイベント経路を検証します。結果と描画画像は `.test-data` に保存します。`SATTOMDV_DATA_DIR` 環境変数で設定保存先を分離するため、テストは通常のユーザー設定を変更しません。
@@ -125,4 +134,5 @@ Windows 10/11のx64環境向けです。ARM64と32bit Windows向けの配布版�
 SattoMDVのソースコードと同梱サンプルは[MITライセンス](LICENSE)で公開しています。改変・再配布・商用利用が可能です。著作権表示とライセンス文を維持してください。
 
 依存ライブラリにはそれぞれのライセンスが適用されます。[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)と[licenses](licenses/)に原文と出典をまとめています。利用者が追加するObsidianテーマやフォントは同梱していません。それらを再配布する場合は、各配布元の条件を別途確認してください。
+
 

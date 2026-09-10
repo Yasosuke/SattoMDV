@@ -1,6 +1,6 @@
-param([string]$Executable = "$PSScriptRoot/dist/SattoMDV/SattoMDV.exe")
+param([string]$Executable = "$PSScriptRoot/dist/SattoMDV/SattoMDV.exe", [string]$TestDirectory = "$PSScriptRoot/.test-data")
 $ErrorActionPreference = 'Stop'
-$testRoot = Join-Path $PSScriptRoot '.test-data'
+$testRoot = [IO.Path]::GetFullPath($TestDirectory)
 $exePath = $Executable
 function Test-Viewer($name, $settings, $filePath) {
     $env:SATTOMDV_DATA_DIR = Join-Path $testRoot $name
@@ -43,6 +43,7 @@ try {
     Get-Content (Join-Path $env:SATTOMDV_DATA_DIR 'ui-pass.txt')
     Write-Host 'All rendering and UI checks passed.'
 } finally { $env:SATTOMDV_DATA_DIR = $savedDataDir }
+
 
 
 

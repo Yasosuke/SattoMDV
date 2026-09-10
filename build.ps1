@@ -10,11 +10,13 @@ foreach ($relative in @('Microsoft.Windows.SDK.NET.dll','WinRT.Runtime.dll','Mic
     if (Test-Path -LiteralPath $obsolete) { Remove-Item -LiteralPath $obsolete }
 }
 Copy-Item "$PSScriptRoot/README.md" "$publishRoot/README.md" -Force
+Copy-Item "$PSScriptRoot/README.en.md" "$publishRoot/README.en.md" -Force
 Copy-Item "$PSScriptRoot/LICENSE" "$publishRoot/LICENSE" -Force
 Copy-Item "$PSScriptRoot/THIRD-PARTY-NOTICES.md" "$publishRoot/THIRD-PARTY-NOTICES.md" -Force
 Copy-Item "$PSScriptRoot/licenses" "$publishRoot/licenses" -Recurse -Force
 Copy-Item "$PSScriptRoot/samples" "$publishRoot/samples" -Recurse -Force
 Write-Host "実行ファイル: $publishRoot/SattoMDV.exe"
+
 
 
 
