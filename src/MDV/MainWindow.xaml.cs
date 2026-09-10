@@ -17,7 +17,7 @@ public partial class MainWindow : Window
     byte[] document = Array.Empty<byte>();
     bool ready;
     int revision;
-    const string DropHint = "ファイルをひらくにはウィンドウへドロップしてください/右クリックでメニュー表示";
+    static string DropHint => UiText.T("ファイルをひらくにはウィンドウへドロップしてください/右クリックでメニュー表示");
     string? pendingDrop;
     bool uiTesting;
     ContextMenu? activeMenu;
@@ -29,7 +29,9 @@ public partial class MainWindow : Window
     }
     public MainWindow()
     {
+        UiText.Current.Language = prefs.Language;
         InitializeComponent();
+        ApplyLanguage();
         OutlinePanel.Visibility = prefs.ShowOutline ? Visibility.Visible : Visibility.Collapsed;
         ApplyOutlineMargin();
         ContextMenu = CreateMenu();
@@ -106,6 +108,15 @@ public partial class MainWindow : Window
                         Status.ToolTip = file;
                         if (prefs.ShowOutline) await RefreshOutline();
                     }
+                    if (Environment.GetCommandLineArgs().Contains("--language-test")) {
+                        if (!uiTesting) {
+                            uiTesting = true;
+                            try { await RunLanguageChecks(); }
+                            catch (Exception ex) { await File.WriteAllTextAsync(Path.Combine(Preferences.Home, "language-error.txt"), ex.ToString()); }
+                            finally { Close(); }
+                        }
+                        return;
+                    }
                     if (Environment.GetCommandLineArgs().Contains("--benchmark")) {
                         try { await RecordBenchmark(); } finally { Close(); }
                         return;
@@ -135,7 +146,7 @@ public partial class MainWindow : Window
                 await LoadFile(selectedPath, selectedPath == initialPath ? prepared : null);
             } catch (Exception ex) {
                 if (Environment.GetCommandLineArgs().Contains("--startup-probe")) { WriteStartupProbe(startupStage + "\n" + ex); Close(); return; }
-                Status.Text = "起動できませんでした"; ShowError(ex);
+                Status.Text = UiText.T("起動できませんでした"); ShowError(ex);
             }
         };
         Closed += (_, _) => Browser.Dispose();
@@ -153,7 +164,7 @@ public partial class MainWindow : Window
     Task<PreparedDocument> PrepareDocument(string? path) => Task.Run(async () => {
         try {
             var fullPath = path is null ? null : Path.GetFullPath(path);
-            var markdown = fullPath is null ? Renderer.Welcome : await File.ReadAllTextAsync(fullPath);
+            var markdown = fullPath is null ? Renderer.WelcomeFor(prefs.Language) : await File.ReadAllTextAsync(fullPath);
             return new PreparedDocument(Encoding.UTF8.GetBytes(Renderer.Render(markdown, prefs)), fullPath, null);
         } catch (Exception ex) { return new PreparedDocument(Array.Empty<byte>(), null, ex); }
     });
@@ -169,19 +180,26 @@ public partial class MainWindow : Window
             if (file is not null) Browser.CoreWebView2.SetVirtualHostNameToFolderMapping("assets.mdv.invalid", Path.GetDirectoryName(file)!, CoreWebView2HostResourceAccessKind.DenyCors);
             document = result.Bytes;
             OutlineList.ItemsSource = null;
-            Title = file is null ? "SattoMDV — さっと表示する Markdown Viewer" : $"SattoMDV — {file}";
+            Title = file is null ? UiText.T("SattoMDV — さっと表示する Markdown Viewer") : $"SattoMDV — {file}";
             Browser.CoreWebView2.Navigate("https://mdv.invalid/index.html?r=" + revision);
         } catch (Exception ex) { ShowError(ex); }
     }
     void ShowError(Exception ex) => MessageBox.Show(this, ex.Message, "SattoMDV", MessageBoxButton.OK, MessageBoxImage.Warning);
     void OpenClick(object sender, RoutedEventArgs e) {
-        var dialog = new OpenFileDialog { Filter = "Markdown|*.md;*.markdown;*.txt|すべてのファイル|*.*" };
+        var dialog = new OpenFileDialog { Filter = UiText.T("Markdown|*.md;*.markdown;*.txt|すべてのファイル|*.*") };
         if (dialog.ShowDialog(this) == true) _ = LoadFile(dialog.FileName);
     }
     void ReloadClick(object sender, RoutedEventArgs e) => _ = LoadFile(file);
     void SettingsClick(object sender, RoutedEventArgs e) {
         var window = new SettingsWindow(prefs) { Owner = this };
-        if (window.ShowDialog() == true) { ApplyOutlineMargin(); _ = LoadFile(file); }
+        if (window.ShowDialog() == true) { ApplyLanguage(); ContextMenu = CreateMenu(); ApplyOutlineMargin(); _ = LoadFile(file); }
+    }
+    void ApplyLanguage() {
+        UiText.Current.Language = prefs.Language;
+        Status.Text = DropHint;
+        OutlineHeading.Text = UiText.T("アウトライン");
+        OutlineEmpty.Text = UiText.T("見出しがありません");
+        Title = file is null ? UiText.T("SattoMDV — さっと表示する Markdown Viewer") : $"SattoMDV — {file}";
     }
     void ApplyOutlineMargin() => OutlinePanel.Padding = new Thickness(12, Preferences.NormalizeMargin(prefs.OutlineTopMargin, 20), 12, 12);
     static ProcessStartInfo FolderStartInfo(string path) {
@@ -202,12 +220,12 @@ public partial class MainWindow : Window
     ContextMenu CreateMenu() {
         var menu = new ContextMenu();
         void Add(string title, RoutedEventHandler action, string shortcut = "") {
-            var item = new MenuItem { Header = title, InputGestureText = shortcut };
+            var item = new MenuItem { Header = UiText.T(title), InputGestureText = shortcut };
             item.Click += action; menu.Items.Add(item);
         }
         Add("ファイルを開く", OpenClick, "Ctrl+O");
         Add("再読込", ReloadClick, "F5");
-        var folder = new MenuItem { Header = "このファイルの場所を開く", IsEnabled = file is not null };
+        var folder = new MenuItem { Header = UiText.T("このファイルの場所を開く"), IsEnabled = file is not null };
         folder.Click += (_, _) => {
             if (file is null) return;
             try { Process.Start(FolderStartInfo(file)); } catch (Exception ex) { ShowError(ex); }
@@ -224,9 +242,9 @@ public partial class MainWindow : Window
         menu.Items.Add(outline);
         void RefreshState() {
             folder.IsEnabled = file is not null;
-            folder.ToolTip = file is null ? "Markdownファイルを開くと使えます" : Path.GetDirectoryName(file);
+            folder.ToolTip = file is null ? UiText.T("Markdownファイルを開くと使えます") : Path.GetDirectoryName(file);
             ToolTipService.SetShowOnDisabled(folder, true);
-            outline.Header = prefs.ShowOutline ? "アウトラインを非表示" : "アウトラインを表示";
+            outline.Header = UiText.T(prefs.ShowOutline ? "アウトラインを非表示" : "アウトラインを表示");
         }
         RefreshState();
         menu.Opened += (_, _) => RefreshState();
@@ -252,5 +270,7 @@ public partial class MainWindow : Window
         }
     }
 }
+
+
 
 

@@ -10,6 +10,7 @@
     <RootNamespace>MDV</RootNamespace>
     <Product>SattoMDV — さっと表示する Markdown Viewer</Product>
     <Title>SattoMDV</Title>
+    <Version>1.1.0</Version>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>false</SelfContained>
     <DebugType>none</DebugType>
@@ -27,5 +28,6 @@
     </ItemGroup>
   </Target>
 </Project>
+
 
 

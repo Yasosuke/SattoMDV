@@ -13,14 +13,17 @@ public sealed class ColorField : Button
     public ColorField() {
         Padding = new Thickness(6,4,6,4); HorizontalContentAlignment = HorizontalAlignment.Left;
         var row = new StackPanel { Orientation = Orientation.Horizontal }; row.Children.Add(swatch); row.Children.Add(label); Content = row;
+        Loaded += (_, _) => { UiText.Current.PropertyChanged += LanguageChanged; UpdateSwatch(); };
+        Unloaded += (_, _) => UiText.Current.PropertyChanged -= LanguageChanged;
         UpdateSwatch();
         Click += (_, _) => {
             var picker = new ColorPicker(Value) { Owner = Window.GetWindow(this) };
             if (picker.ShowDialog() == true) SetCurrentValue(ValueProperty, picker.Value);
         };
     }
+    void LanguageChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) => UpdateSwatch();
     void UpdateSwatch() {
-        label.Text = string.IsNullOrWhiteSpace(Value) ? "テーマを継承" : Value;
+        label.Text = string.IsNullOrWhiteSpace(Value) ? UiText.T("テーマを継承") : Value;
         try { swatch.Background = (Brush)new BrushConverter().ConvertFromString(Value)!; } catch { swatch.Background = Brushes.Transparent; }
     }
 }
@@ -49,7 +52,7 @@ public sealed class ColorPicker : Window
         }
         for (var i = 0; i < 3; i++) {
             var row = new DockPanel { Margin = new Thickness(0,4,0,4) };
-            row.Children.Add(new TextBlock { Text = new[] { "赤 R", "緑 G", "青 B" }[i], Width = 48 });
+            row.Children.Add(new TextBlock { Text = new[] { "赤 R", "緑 G", "青 B" }[i], Width = 64 });
             var slider = channels[i]; slider.Minimum = 0; slider.Maximum = 255; slider.TickFrequency = 1; slider.IsSnapToTickEnabled = true;
             slider.ValueChanged += (_, _) => { if (!updating) SetColor(Color.FromRgb((byte)channels[0].Value, (byte)channels[1].Value, (byte)channels[2].Value)); };
             row.Children.Add(slider); root.Children.Add(row);
@@ -62,9 +65,11 @@ public sealed class ColorPicker : Window
         Add("キャンセル", () => DialogResult = false);
         Add("決定", () => {
             try { _ = ColorConverter.ConvertFromString(hex.Text.Trim()); Value = hex.Text.Trim(); DialogResult = true; }
-            catch { MessageBox.Show(this, "#RRGGBB または有効な色名を指定してください。", "色を確認してください"); }
+            catch { MessageBox.Show(this, UiText.T("#RRGGBB または有効な色名を指定してください。"), UiText.T("色を確認してください")); }
         });
+        UiText.Localize(this);
         try { SetColor((Color)ColorConverter.ConvertFromString(initial)); } catch { SetColor(Colors.Black); }
     }
 }
+
 

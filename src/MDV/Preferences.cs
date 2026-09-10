@@ -16,6 +16,7 @@ public class Preferences
     // Native and composition controllers cannot share the same running browser environment.
     // Keep settings shared, but use a stable profile specific to this rendering backend.
     public static string BrowserDataDirectory => Path.Combine(Home, "WebView-Native-v1");
+    public string Language { get; set; } = "ja";
     public string ThemePath { get; set; } = "";
     public bool Dark { get; set; }
     public bool ShowOutline { get; set; }
@@ -34,6 +35,7 @@ public class Preferences
                 }
             }
             var prefs = JsonSerializer.Deserialize<Preferences>(File.ReadAllText(path)) ?? new();
+            prefs.Language = prefs.Language == "en" ? "en" : "ja";
             prefs.BodyTopMargin = NormalizeMargin(prefs.BodyTopMargin, 44);
             prefs.OutlineTopMargin = NormalizeMargin(prefs.OutlineTopMargin, 20);
             return prefs;
@@ -48,3 +50,4 @@ public class Preferences
         File.Move(path + ".tmp", path, true);
     }
 }
+

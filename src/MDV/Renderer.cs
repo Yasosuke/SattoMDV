@@ -36,6 +36,36 @@ public static class Renderer
 
         閉じると終了します。常駐プロセスやファイル監視はありません。
         """;
+    public static string WelcomeFor(string language) => language == "en" ? WelcomeEnglish : Welcome;
+    public const string WelcomeEnglish = """
+        # Read comfortably.
+
+        **SattoMDV — A simple Markdown viewer** helps you focus on reading.
+
+        Drop a file anywhere in this window. You can also **right-click** and choose **Open file**, or press **Ctrl + O**.
+
+        ## Your reading style
+
+        Open **Theme & appearance** from the right-click menu to load an Obsidian `theme.css`. Use the color pickers and font dropdowns to make the page your own.
+
+        > Larger text. Comfortable spacing. Your favorite colors.
+        > Give your everyday reading a comfortable home.
+
+        ### Features
+
+        - Headings, emphasis, quotes, lists, links and images
+        - Tables, task lists and code blocks
+        - Light/dark themes and custom CSS
+        - Show or hide the outline from the right-click menu
+
+        | Action | Shortcut |
+        | --- | --- |
+        | Open file | Ctrl + O |
+        | Reload | F5 |
+        | Find in document | Ctrl + F |
+
+        Closing the window exits the app. No background service or file watching.
+        """;
     public static string Render(string markdown, Preferences prefs) {
         var theme = string.IsNullOrWhiteSpace(prefs.ThemePath) ? "" : File.ReadAllText(prefs.ThemePath);
         var css = new StringBuilder();
@@ -53,8 +83,9 @@ public static class Renderer
         }
         css.Append(".markdown-preview-view {padding-top:").Append(Preferences.NormalizeMargin(prefs.BodyTopMargin, 44).ToString(System.Globalization.CultureInfo.InvariantCulture)).Append("px !important;} .markdown-preview-section > :first-child {margin-top:0 !important;}");
         css.Append(prefs.CustomCss);
-        return "<!doctype html><html lang=\"ja\"><head><meta charset=\"utf-8\"><meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; style-src data: 'unsafe-inline'; img-src https://assets.mdv.invalid data:; font-src data:; script-src 'none'; base-uri https://assets.mdv.invalid; form-action 'none'\"><base href=\"https://assets.mdv.invalid/\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">" + BaseSheet.Value + Sheet(theme) + Sheet(css.ToString()) + "</head><body class=\"" + (prefs.Dark ? "theme-dark" : "theme-light") + "\"><div class=\"app-container\"><div class=\"workspace\"><div class=\"workspace-leaf-content\" data-type=\"markdown\"><div class=\"markdown-reading-view\"><main class=\"markdown-preview-view markdown-rendered\"><article class=\"markdown-preview-sizer markdown-preview-section\">" + Markdown.ToHtml(markdown, Pipeline) + "</article></main></div></div></div></div></body></html>";
+        return "<!doctype html><html lang=\"" + (prefs.Language == "en" ? "en" : "ja") + "\"><head><meta charset=\"utf-8\"><meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; style-src data: 'unsafe-inline'; img-src https://assets.mdv.invalid data:; font-src data:; script-src 'none'; base-uri https://assets.mdv.invalid; form-action 'none'\"><base href=\"https://assets.mdv.invalid/\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">" + BaseSheet.Value + Sheet(theme) + Sheet(css.ToString()) + "</head><body class=\"" + (prefs.Dark ? "theme-dark" : "theme-light") + "\"><div class=\"app-container\"><div class=\"workspace\"><div class=\"workspace-leaf-content\" data-type=\"markdown\"><div class=\"markdown-reading-view\"><main class=\"markdown-preview-view markdown-rendered\"><article class=\"markdown-preview-sizer markdown-preview-section\">" + Markdown.ToHtml(markdown, Pipeline) + "</article></main></div></div></div></div></body></html>";
     }
 }
+
 
 

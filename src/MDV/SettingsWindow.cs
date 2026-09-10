@@ -10,11 +10,19 @@ public class SettingsWindow : Window
 {
     public SettingsWindow(Preferences target)
     {
+        UiText.Current.Language = target.Language;
         Title = "SattoMDV — テーマ・表示設定"; Width = 1060; Height = 850; MinWidth = 850; MinHeight = 720;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
         var root = new DockPanel { Margin = new Thickness(20) }; Content = root;
         var top = new StackPanel(); DockPanel.SetDock(top, Dock.Top); root.Children.Add(top);
         top.Children.Add(new TextBlock { Text = "読み心地を整える", FontSize = 24, Margin = new Thickness(0,0,0,16) });
+        var languages = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0,0,0,16) };
+        var english = new RadioButton { Content = "English", GroupName = "Language", IsChecked = target.Language == "en", Margin = new Thickness(0,0,20,0) };
+        var japanese = new RadioButton { Content = "日本語", GroupName = "Language", IsChecked = target.Language != "en" };
+        english.Checked += (_, _) => UiText.Current.Language = "en";
+        japanese.Checked += (_, _) => UiText.Current.Language = "ja";
+        languages.Children.Add(english); languages.Children.Add(japanese); top.Children.Add(languages);
+        Closed += (_, _) => UiText.Current.Language = target.Language;
         var fonts = FontCatalog.GetNames();
         var sizes = new[] { "", "12px", "14px", "16px", "18px", "20px", "22px", "24px", "28px", "32px", "36px", "42px", "48px" };
         var global = new ElementStyle { Color=target.GlobalStyle.Color, Background=target.GlobalStyle.Background, Size=target.GlobalStyle.Size, Font=target.GlobalStyle.Font };
@@ -44,7 +52,7 @@ public class SettingsWindow : Window
         top.Children.Add(margins);
         var path = new TextBox { Text = target.ThemePath, MinWidth = 300, VerticalContentAlignment = VerticalAlignment.Center };
         var browse = new Button { Content = "theme.css を選ぶ", Padding = new Thickness(12,6,12,6) };
-        browse.Click += (_, _) => { var d = new OpenFileDialog { Filter = "CSS テーマ|*.css" }; if (d.ShowDialog(this) == true) path.Text = d.FileName; };
+        browse.Click += (_, _) => { var d = new OpenFileDialog { Filter = UiText.T("CSS テーマ|*.css") }; if (d.ShowDialog(this) == true) path.Text = d.FileName; };
         var clear = new Button { Content = "標準に戻す", Padding = new Thickness(12,6,12,6), Margin = new Thickness(8,0,0,0) };
         clear.Click += (_, _) => path.Text = "";
         var themeRow = new DockPanel(); DockPanel.SetDock(clear, Dock.Right); DockPanel.SetDock(browse, Dock.Right);
@@ -75,16 +83,18 @@ public class SettingsWindow : Window
             try {
                 if (!string.IsNullOrWhiteSpace(path.Text)) _ = File.ReadAllText(path.Text);
                 double ReadMargin(TextBox input) {
-                    if (!double.TryParse(input.Text, out var value) || !double.IsFinite(value) || value is < 0 or > 500) throw new ArgumentException("上余白は0～500の数値で指定してください。");
+                    if (!double.TryParse(input.Text, out var value) || !double.IsFinite(value) || value is < 0 or > 500) throw new ArgumentException(UiText.T("上余白は0～500の数値で指定してください。"));
                     return value;
                 }
-                var updated = new Preferences { ThemePath = path.Text.Trim(), Dark = dark.IsChecked == true, ShowOutline = target.ShowOutline, GlobalStyle = global, BodyTopMargin = ReadMargin(bodyMargin), OutlineTopMargin = ReadMargin(outlineMargin), CustomCss = css.Text, Elements = rows.Where(s => !string.IsNullOrWhiteSpace(s.Selector)).ToList() };
+                var updated = new Preferences { Language = english.IsChecked == true ? "en" : "ja", ThemePath = path.Text.Trim(), Dark = dark.IsChecked == true, ShowOutline = target.ShowOutline, GlobalStyle = global, BodyTopMargin = ReadMargin(bodyMargin), OutlineTopMargin = ReadMargin(outlineMargin), CustomCss = css.Text, Elements = rows.Where(s => !string.IsNullOrWhiteSpace(s.Selector)).ToList() };
                 updated.Save();
+                target.Language = updated.Language;
                 target.ThemePath=updated.ThemePath; target.Dark=updated.Dark; target.CustomCss=updated.CustomCss; target.Elements=updated.Elements;
                 target.GlobalStyle=updated.GlobalStyle; target.BodyTopMargin=updated.BodyTopMargin; target.OutlineTopMargin=updated.OutlineTopMargin;
                 DialogResult = true;
-            } catch (Exception ex) { MessageBox.Show(this, ex.Message, "設定を保存できません", MessageBoxButton.OK, MessageBoxImage.Warning); }
+            } catch (Exception ex) { MessageBox.Show(this, ex.Message, UiText.T("設定を保存できません"), MessageBoxButton.OK, MessageBoxImage.Warning); }
         };
+        UiText.Localize(this);
     }
     static void AddDropdown(DataGrid grid, string label, string property, string[] choices, double width) {
         var factory = new FrameworkElementFactory(typeof(ComboBox));
@@ -95,4 +105,6 @@ public class SettingsWindow : Window
         grid.Columns.Add(new DataGridTemplateColumn { Header = label, CellTemplate = new DataTemplate { VisualTree = factory }, Width = width });
     }
 }
+
+
 

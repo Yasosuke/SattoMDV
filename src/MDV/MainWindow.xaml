@@ -3,7 +3,7 @@
   <TextBlock x:Name="Status" DockPanel.Dock="Bottom" Text="ファイルをひらくにはウィンドウへドロップしてください/右クリックでメニュー表示" Padding="18,7" Foreground="#66645F" FontSize="12" TextTrimming="CharacterEllipsis" Background="Transparent"/>
   <Border x:Name="OutlinePanel" DockPanel.Dock="Left" Width="240" Visibility="Collapsed" Background="#F0EEE8" BorderBrush="#DDD9D0" BorderThickness="0,0,1,0" Padding="12">
    <DockPanel>
-    <TextBlock DockPanel.Dock="Top" Text="アウトライン" FontSize="14" FontWeight="SemiBold" Margin="8,0,0,16"/>
+    <TextBlock x:Name="OutlineHeading" DockPanel.Dock="Top" Text="アウトライン" FontSize="14" FontWeight="SemiBold" Margin="8,0,0,16"/>
     <TextBlock x:Name="OutlineEmpty" DockPanel.Dock="Top" Text="見出しがありません" Foreground="#78766C" Margin="8" Visibility="Collapsed"/>
     <ListBox x:Name="OutlineList" Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="OutlineSelected">
      <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Text}" Margin="{Binding Indent}" TextWrapping="Wrap" Padding="0,6"/></DataTemplate></ListBox.ItemTemplate>
@@ -13,6 +13,7 @@
   <wv:WebView2 x:Name="Browser" AllowDrop="True" AllowExternalDrop="True"/>
  </DockPanel>
 </Window>
+
 
 
 
