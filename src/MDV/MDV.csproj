@@ -10,13 +10,15 @@
     <RootNamespace>MDV</RootNamespace>
     <Product>SattoMDV — さっと表示する Markdown Viewer</Product>
     <Title>SattoMDV</Title>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
+    <ApplicationIcon>Assets/SattoMDV.ico</ApplicationIcon>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>false</SelfContained>
     <DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
+    <Resource Include="Assets/SattoMDV.ico" />
     <Content Include="reader.css" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="Markdig" Version="1.3.2" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
@@ -28,6 +30,7 @@
     </ItemGroup>
   </Target>
 </Project>
+
 
 
 

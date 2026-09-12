@@ -1,4 +1,4 @@
-<Window x:Class="MDV.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:wv="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" Title="SattoMDV — さっと表示する Markdown Viewer" Width="1080" Height="800" MinWidth="620" MinHeight="420" Background="#FAF9F6" AllowDrop="True" PreviewDragOver="OnDragOver" PreviewDrop="OnDrop">
+<Window x:Class="MDV.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:wv="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" Icon="Assets/SattoMDV.ico" Title="SattoMDV — さっと表示する Markdown Viewer" Width="1080" Height="800" MinWidth="620" MinHeight="420" Background="#FAF9F6" AllowDrop="True" PreviewDragOver="OnDragOver" PreviewDrop="OnDrop">
  <DockPanel Background="Transparent">
   <TextBlock x:Name="Status" DockPanel.Dock="Bottom" Text="ファイルをひらくにはウィンドウへドロップしてください/右クリックでメニュー表示" Padding="18,7" Foreground="#66645F" FontSize="12" TextTrimming="CharacterEllipsis" Background="Transparent"/>
   <Border x:Name="OutlinePanel" DockPanel.Dock="Left" Width="240" Visibility="Collapsed" Background="#F0EEE8" BorderBrush="#DDD9D0" BorderThickness="0,0,1,0" Padding="12">
@@ -13,6 +13,7 @@
   <wv:WebView2 x:Name="Browser" AllowDrop="True" AllowExternalDrop="True"/>
  </DockPanel>
 </Window>
+
 
 
 
