@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>SattoMDV — a page in motion</title>
+  <rect x="8" y="8" width="240" height="240" rx="40" fill="#146C70"/>
+  <path d="M105 48H173L207 83 184 207H76Z" fill="#FFF9EA"/>
+  <path d="M173 48 167 83H207Z" fill="#A6DAD0"/>
+  <path d="M113 111H170M108 139H165M103 167H142" stroke="#146C70" stroke-width="11" stroke-linecap="round"/>
+  <path d="M43 94H77M31 124H69M39 154H61" stroke="#A6DAD0" stroke-width="11" stroke-linecap="round"/>
+</svg>
