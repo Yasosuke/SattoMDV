@@ -6,7 +6,7 @@ SattoMDV is a Windows Markdown viewer designed for comfortable, distraction-free
 
 ## Download and setup
 
-1. Open the [latest release](https://github.com/Yasosuke/SattoMDV/releases/latest) and download **SattoMDV-1.1.0-win-x64.zip** from **Assets**. The files labeled **Source code** are for developers.
+1. Open the [latest release](https://github.com/Yasosuke/SattoMDV/releases/latest) and download **SattoMDV-1.1.1-win-x64.zip** from **Assets**. The files labeled **Source code** are for developers.
 2. Install **.NET Desktop Runtime 10 for Windows x64** from [Microsoft](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) if it is not already installed. Choose **Desktop Runtime**, not just .NET Runtime or ASP.NET Core Runtime. The SDK is not needed to run the app.
 3. Install the [Microsoft Edge WebView2 Evergreen Runtime](https://developer.microsoft.com/en-us/microsoft-edge/webview2/) if needed.
 4. Extract the entire ZIP, then run **SattoMDV.exe** from the extracted folder. Keep the files together; do not run the app from inside the ZIP or copy only the EXE.
@@ -104,3 +104,4 @@ The executable is generated in `dist/SattoMDV`. The first build downloads NuGet 
 SattoMDV and its original samples are released under the [MIT License](LICENSE), allowing modification, redistribution and commercial use while retaining the copyright and license text.
 
 Dependencies retain their own licenses. See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) and [licenses](licenses/) for notices and original terms. Third-party Obsidian themes and fonts are not bundled; check their own terms before redistributing them.
+

@@ -8,7 +8,7 @@ Windows向けの、文章を読むためのMarkdownビューア。C# / .NET 10 /
 
 Windows 10/11のx64環境向けです。ARM64と32bit Windows向けの配布版はありません。
 
-1. [GitHubのReleases](https://github.com/Yasosuke/SattoMDV/releases/latest)を開き、最新版の **Assets** から `SattoMDV-1.1.0-win-x64.zip` をダウンロードします。`Source code` は開発者向けのソースコードです。
+1. [GitHubのReleases](https://github.com/Yasosuke/SattoMDV/releases/latest)を開き、最新版の **Assets** から `SattoMDV-1.1.1-win-x64.zip` をダウンロードします。`Source code` は開発者向けのソースコードです。
 2. [Microsoft公式の.NET 10ダウンロードページ](https://dotnet.microsoft.com/ja-jp/download/dotnet/10.0)で **.NET Desktop Runtime → Windows → x64** をインストールしてください。実行にはSDKは不要ですが、通常の.NET RuntimeやASP.NET Core Runtimeだけでは不足します。既にDesktop Runtime 10がある場合は再インストール不要です。
 3. [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/ja-jp/microsoft-edge/webview2/)が未導入の場合は、Evergreen Runtimeをインストールしてください。
 4. ZIPを右クリックして「すべて展開」を選び、展開先の `SattoMDV.exe` を起動します。ZIP内から直接起動したり、EXEだけを取り出したりしないでください。
@@ -99,7 +99,7 @@ Markdown内の生HTMLとスクリプトは無効です。画像は文書と同�
 
 Windows 10/11のx64環境向けです。ARM64と32bit Windows向けの配布版はありません。
 
-1. [GitHubのReleases](https://github.com/Yasosuke/SattoMDV/releases/latest)を開き、最新版の **Assets** から `SattoMDV-1.1.0-win-x64.zip` をダウンロードします。`Source code` は開発者向けのソースコードです。
+1. [GitHubのReleases](https://github.com/Yasosuke/SattoMDV/releases/latest)を開き、最新版の **Assets** から `SattoMDV-1.1.1-win-x64.zip` をダウンロードします。`Source code` は開発者向けのソースコードです。
 2. [Microsoft公式の.NET 10ダウンロードページ](https://dotnet.microsoft.com/ja-jp/download/dotnet/10.0)で **.NET Desktop Runtime → Windows → x64** をインストールしてください。実行にはSDKは不要ですが、通常の.NET RuntimeやASP.NET Core Runtimeだけでは不足します。既にDesktop Runtime 10がある場合は再インストール不要です。
 3. [Microsoft Edge WebView2 Runtime](https://developer.microsoft.com/ja-jp/microsoft-edge/webview2/)が未導入の場合は、Evergreen Runtimeをインストールしてください。
 4. ZIPを右クリックして「すべて展開」を選び、展開先の `SattoMDV.exe` を起動します。ZIP内から直接起動したり、EXEだけを取り出したりしないでください。
@@ -134,5 +134,6 @@ Windows 10/11のx64環境向けです。ARM64と32bit Windows向けの配布版�
 SattoMDVのソースコードと同梱サンプルは[MITライセンス](LICENSE)で公開しています。改変・再配布・商用利用が可能です。著作権表示とライセンス文を維持してください。
 
 依存ライブラリにはそれぞれのライセンスが適用されます。[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)と[licenses](licenses/)に原文と出典をまとめています。利用者が追加するObsidianテーマやフォントは同梱していません。それらを再配布する場合は、各配布元の条件を別途確認してください。
+
 
 
